@@ -9,3 +9,25 @@ before_first_request：   注册一个函数，在处理第一个请求之前运
 fore_request：           注册一个函数，在每次请求之前运行。
 after_request：          注册一个函数，如果没有未处理的异常抛出，在每次请求之后运行。
 teardown_request：       注册一个函数，即使有未处理的异常抛出，也在每次请求之后运行。
+
+jinja2变量过滤器
+safe             渲染值时不转义
+capitalize       把值的首字母转换成大写，其他字母转换成小写
+lower            把值转换成小写形式
+upper            把值转换成大写形式
+title            把值中每个单词的首字母都转换成大写
+trim             把值的首尾空格去掉
+striptags        渲染之前把值中所有的 HTML 标签都删掉
+
+jinjia2的控制结构
+1、判断结构
+{% if user %}
+Hello, {{ user }}!
+{% else %}
+Hello, Stranger!
+{% endif %}
+
+2、for循环结构
+{% for comment in comments %}
+<li>{{ comment }}</li>
+{% endfor %}
