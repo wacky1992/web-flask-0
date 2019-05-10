@@ -40,3 +40,13 @@
     {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
+
+
+
+{#引入moment.js的库#}
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang('zh_CN') }}
+{% endblock %}
+

@@ -6,18 +6,23 @@ from flask_script import Manager
 from flask import render_template
 # 引入bootstrap客户端框架
 from flask_bootstrap import Bootstrap
+# 引入浏览器时间和日期渲染拓展
+from flask_moment import Moment
+from datetime import datetime
 
 
 app = Flask(__name__)
 manager = Manager(app)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 
 # 修饰器定义路径，并确认返回值
 @app.route('/')
 def index():
     # 返回渲染模板的内容
-    return render_template('index.html')
+    return render_template('index.html',
+                           current_time=datetime.utcnow())
 
 
 # 修饰器可以通过引用上下文临时把某些对象变为全局可访问
