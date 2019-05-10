@@ -3,6 +3,15 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}首页{% endblock %}
 
+
+{#定义收藏夹图标#}
+{#调用url_for('static', filename='css/styles.css', _external=True)得到的结果是 http://localhost:5000/static/css/styles.css#}
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename = '20150806050310138.ico') }}" type="image/x-ico">
+<link rel="icon" href="{{ url_for('static', filename = '20150806050310138.ico') }}" type="image/x-ico">
+{% endblock %}
+
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
