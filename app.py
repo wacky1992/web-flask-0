@@ -9,19 +9,38 @@ from flask_bootstrap import Bootstrap
 # 引入浏览器时间和日期渲染拓展
 from flask_moment import Moment
 from datetime import datetime
+# 引用表单相关类
+from flask_wtf import Form
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'wacky1992'
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
 
+# 定义表单类
+class SignForm(Form):
+    name = StringField('用户名：', validators=[DataRequired()])
+    password = PasswordField('密码：')
+    submit = SubmitField('登录')
+
+
 # 修饰器定义路径，并确认返回值
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    name = None
+    form = SignForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
     # 返回渲染模板的内容
     return render_template('index.html',
+                           form=form,
+                           name=name,
                            current_time=datetime.utcnow())
 
 
