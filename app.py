@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request
+from flask import Flask, request, session, redirect, url_for
 # 引入命令行解析器
 from flask_script import Manager
 # 引入渲染模板
@@ -32,15 +31,19 @@ class SignForm(Form):
 # 修饰器定义路径，并确认返回值
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    name = None
+    # name = None
     form = SignForm()
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ''
+        # 使用重定向和用户会话
+        session['name'] = form.name.data
+        # render是渲染变量到模板中，而redirect是HTTP中1个跳转的函数，一般会生成302状态码。
+        return redirect(url_for('index'))
+        # name = form.name.data
+        # form.name.data = ''
     # 返回渲染模板的内容
     return render_template('index.html',
                            form=form,
-                           name=name,
+                           name=session.get('name'),
                            current_time=datetime.utcnow())
 
 

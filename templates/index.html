@@ -20,5 +20,7 @@
     <p>上次操作为{{ moment(current_time).fromNow(refresh=True) }}</p>
 </div>
 {#插入快速表格渲染    #}
+<div class="col-md-2">
     {{ wtf.quick_form(form) }}
+</div>
 {% endblock %}
