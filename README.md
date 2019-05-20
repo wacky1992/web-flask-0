@@ -127,3 +127,21 @@ python hello.py db migrate -m "initial migration"
 更新数据库
 python hello.py db upgrade
 
+
+
+Flask-Mail SMTP服务器的配置
+MAIL_SERVER     localhost 电子邮件服务器的主机名或 IP 地址
+MAIL_PORT       25        电子邮件服务器的端口
+MAIL_USE_TLS    False     启用传输层安全（Transport Layer Security，TLS）协议
+MAIL_USE_SSL    False     启用安全套接层（Secure Sockets Layer，SSL）协议
+MAIL_USERNAME   None      邮件账户的用户名
+MAIL_PASSWORD   None      邮件账户的密码
+
+保存电子邮件服务器用户名和密码的两个环境变量要在环境中定义。
+如果你在 Linux 或Mac OS X 中使用 bash，那么可以按照下面的方式设定这两个变量：
+(venv) $ export MAIL_USERNAME=<Gmail username>
+(venv) $ export MAIL_PASSWORD=<Gmail password>
+
+微软 Windows 用户可按照下面的方式设定环境变量：
+(venv) $ set MAIL_USERNAME=<Gmail username>
+(venv) $ set MAIL_PASSWORD=<Gmail password>

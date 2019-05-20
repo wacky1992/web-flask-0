@@ -18,6 +18,9 @@ from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 # 引入数据迁移框架
 from flask_migrate import Migrate, MigrateCommand
+import os
+# 引用邮件相关库
+from flask_mail import Mail, Message
 
 
 app = Flask(__name__)
@@ -25,6 +28,12 @@ app.config['SECRET_KEY'] = 'wacky1992'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123@localhost/flask'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.189.cn'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
 manager = Manager(app)
 bootstrap = Bootstrap(app)
@@ -35,6 +44,7 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 # 为了导出数据库迁移命令，Flask-Migrate 提供了一个 MigrateCommand 类，可附加到 Flask-Script 的 manager 对象上。
 # 在这个例子中， MigrateCommand 类使用 db 命令附加。
+mail = Mail(app)
 
 
 class Role(db.Model):
