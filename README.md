@@ -116,3 +116,14 @@ get()           返回指定主键对应的行，如果没有对应的行，则�
 get_or_404()    返回指定主键对应的行，如果没找到指定的主键，则终止请求，返回 404 错误响应
 count()         返回查询结果的数量
 paginate()      返回一个 Paginate 对象，它包含指定范围内的结果
+
+
+创建数据迁移仓库命令
+python hello.py db init
+
+创建迁移脚本命令
+python hello.py db migrate -m "initial migration"
+
+更新数据库
+python hello.py db upgrade
+

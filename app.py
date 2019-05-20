@@ -1,6 +1,8 @@
 from flask import Flask, request, session, redirect, url_for, flash
 # 引入命令行解析器
 from flask_script import Manager
+# 引入集成python shell 已经不使用
+# from flask_script import Shell
 # 引入渲染模板
 from flask import render_template
 # 引入bootstrap客户端框架
@@ -14,6 +16,8 @@ from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 # 引入数据库框架
 from flask_sqlalchemy import SQLAlchemy
+# 引入数据迁移框架
+from flask_migrate import Migrate, MigrateCommand
 
 
 app = Flask(__name__)
@@ -27,7 +31,10 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
 # db 对象是 SQLAlchemy 类的实例，表示程序使用的数据库，同时还获得了 Flask-SQLAlchemy提供的所有功能
-
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
+# 为了导出数据库迁移命令，Flask-Migrate 提供了一个 MigrateCommand 类，可附加到 Flask-Script 的 manager 对象上。
+# 在这个例子中， MigrateCommand 类使用 db 命令附加。
 
 
 class Role(db.Model):
@@ -56,6 +63,19 @@ class SignForm(FlaskForm):
     name = StringField('用户名：', validators=[DataRequired()])
     # password = PasswordField('密码：')
     submit = SubmitField('登录')
+
+
+# # 注册一个 make_context 回调函数，旧版本使用
+# def make_shell_context():
+#     return dict(app=app, db=db, User=User, Role=Role)
+#
+#
+# manager.add_command("shell", Shell(make_context=make_shell_context))
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Role=Role)
 
 
 @app.route('/', methods=['GET', 'POST'])
