@@ -34,6 +34,9 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[刘恒健]'
+app.config['FLASKY_MAIL_SENDER'] = 'Flask Admin<18912965231@189.cn>'
+app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
 
 manager = Manager(app)
 bootstrap = Bootstrap(app)
@@ -68,6 +71,14 @@ class User(db.Model):
         return '<User %r>' % self.username
 
 
+def send_mail(to, subject, template, **kwargs):
+    msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
+                  sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    mail.send(msg)
+
+
 # 定义表单类
 class SignForm(FlaskForm):
     name = StringField('用户名：', validators=[DataRequired()])
@@ -97,6 +108,9 @@ def index():
             user = User(username=form.name.data)
             db.session.add(user)
             session['known'] = False
+            if app.config['FLASKY_ADMIN']:
+                send_mail(app.config['FLASKY_ADMIN'], '新用户',
+                          'mail/new_user', user=user)
         else:
             session['known'] = True
         session['name'] = form.name.data
