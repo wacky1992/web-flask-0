@@ -1,0 +1,10 @@
+1、存在4个顶级文件夹：
+    Flask程序放在app的包中；
+    migrations用来存放数据库迁移脚本；
+    单元测试在test包中；
+    venv文件包含python虚拟环境
+
+2、新增文件说明：
+    requirements.txt列出所有依赖包，便于在其他电脑中重新生成相同的虚拟环境；
+    config.py 存储配置；
+    manage.py 用于启动程序以及其他的程序任务
