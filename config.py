@@ -3,12 +3,14 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
-    SECRET_KEY =  os.environ.get('SECRET_KEY') or 'hard to guess string'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     @staticmethod
 # 配置类可以定义init_app()类方法，其参数是程序实例。
@@ -31,9 +33,9 @@ class DevelopmentConfig(Config):
 
 # 在 3 个子类中， SQLALCHEMY_DATABASE_URI 变量都被指定了不同的值。
 # 这样程序就可在不同的配置环境中运行，每个环境都使用不同的数据库
-class TestingConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or 'mysql+pymysql://'
+class DevelopmentConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://root:123@localhost/flask'
 
 
 class TestingConfig(Config):
