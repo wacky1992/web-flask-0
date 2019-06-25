@@ -5,6 +5,7 @@ from . import main
 from .form import SignForm
 from .. import db
 from ..models import User
+from ..email import send_mail
 
 
 @main.route('/', methods = ['GET', 'POST'])
