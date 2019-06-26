@@ -1,0 +1,30 @@
+with 语句适用于对资源进行访问的场合，确保不管使用过程中是否发生异常都会执行必要的“清理”操作，释放资源，比如文件使用后
+自动关闭、线程中锁的自动获取和释放等。
+
+
+with语句一般都涉及上下文管理器
+上下文管理协议（Context Management Protocol）：包含方法 __enter__() 和 __exit__()，支持该协议的对象要实现这两个方法。
+
+上下文管理器（Context Manager）：支持上下文管理协议的对象，这种对象实现了__enter__() 和 __exit__() 方法。上下文管理器定
+义执行 with 语句时要建立的运行时上下文，负责执行 with 语句块上下文中的进入与退出操作。通常使用 with 语句调用上下文管理
+器，也可以通过直接调用其方法来使用。
+
+运行时上下文（runtime context）：由上下文管理器创建，通过上下文管理器的 __enter__() 和__exit__() 方法实现，__enter__()
+方法在语句体执行之前进入运行时上下文，__exit__() 在语句体执行完后从运行时上下文退出。with 语句支持运行时上下文这一概念。
+
+上下文表达式（Context Expression）：with 语句中跟在关键字 with 之后的表达式，该表达式要返回一个上下文管理器对象。
+
+语句体（with-body）：with 语句包裹起来的代码块，在执行语句体之前会调用上下文管理器的 __enter__() 方法，执行
+完语句体之后会执行 __exit__() 方法。
+
+
+学习网址https://www.ibm.com/developerworks/cn/opensource/os-cn-pythonwith/
+
+基本语法和工作原理
+with context_expression [as target(s)]:
+    with-body
+
+这里 context_expression 要返回一个上下文管理器对象，该对象并不赋值给 as 子句中的 target(s) ，如果指定了 as 子句的话，会
+将上下文管理器的 __enter__() 方法的返回值赋值给 target(s)。target(s) 可以是单个变量，或者由“()”括起来的元组（不能是仅
+仅由“,”分隔的变量列表，必须加“()”）。
+可以把with理解成控制流语句，和其他的诸如if等等一样，它可以简化try-finally代码块
