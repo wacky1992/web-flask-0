@@ -8,7 +8,7 @@ from ..models import User
 from ..email import send_mail
 
 
-@main.route('/', methods = ['GET', 'POST'])
+@main.route('/', methods=['GET', 'POST'])
 def index():
     form = SignForm()
     if form.validate_on_submit():

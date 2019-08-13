@@ -145,3 +145,13 @@ MAIL_PASSWORD   None      邮件账户的密码
 微软 Windows 用户可按照下面的方式设定环境变量：
 (venv) $ set MAIL_USERNAME=<Gmail username>
 (venv) $ set MAIL_PASSWORD=<Gmail password>
+
+
+
+
+Flask-Login要求实现的用户方法
+is_authenticated()      如果用户已经登录，必须返回 True ，否则返回 False
+is_active()             如果允许用户登录，必须返回 True ，否则返回 False 。如果要禁用账户，可以返回 False
+is_anonymous()          对普通用户必须返回 False
+get_id()                必须返回用户的唯一标识符，使用 Unicode 编码字符串
+Flask-Login 提供了一个 UserMixin 类，其中包含这些方法的默认实现，且能满足大多数需求
