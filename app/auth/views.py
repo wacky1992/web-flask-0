@@ -89,7 +89,7 @@ def resend_confirmation():
     return redirect(url_for('main.index'))
 
 
-@auth.route('/change-password', method=['GET', 'POST'])
+@auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     form = ChangePasswordForm()
@@ -105,7 +105,7 @@ def change_password():
     return render_template("auth/change_password.html", form=form)
 
 
-@auth.route('/reset', method=['GET', 'POST'])
+@auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
     if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
@@ -123,7 +123,7 @@ def password_reset_request():
         return render_template('auth/reset_password.html', form=form)
 
 
-@auth.route('/reset<token>', method=['GET', 'POST'])
+@auth.route('/reset<token>', methods=['GET', 'POST'])
 def password_reset(token):
     if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
