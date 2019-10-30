@@ -68,7 +68,7 @@ packaging==19.1
 pager==3.3
 pandas==0.25.0
 parsel==1.5.2
-Pillow==6.1.0
+Pillow==6.2.0
 pipenv==2018.11.26
 post==2019.4.13
 poyo==0.5.0
