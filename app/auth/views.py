@@ -7,6 +7,14 @@ from .form import LoginForm, SignupForm, ChangePasswordForm, PasswordResetReques
 from ..email import send_mail
 
 
+# 更新已登录用户的访问时间
+@auth.before_app_request
+def before_request():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.index'))
+    return render_template('auth/unconfirmed.html')
+
+
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated \

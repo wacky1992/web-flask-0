@@ -27,12 +27,25 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
+{#            新增用户资料页面#}
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('auth.logout') }}">注销</a></li>
+{#                    下拉菜单按钮#}
+{#                    向链接或按钮添加 data-toggle="dropdown" 来切换下拉菜单#}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">账户 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.change_password') }}">修改密码</a></li>
+                        <li><a href="{{ url_for('auth.change_email_request') }}">修改邮箱</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">注销</a></li>
+                    </ul>
+                </li>
                 {% else %}
-                <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
                 {% endif %}
             </ul>
         </div>

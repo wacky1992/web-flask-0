@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from . import login_manager   # 加载用户的回调函数
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
+import datetime
 
 
 class Permission:
@@ -70,6 +71,10 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     email = db.Column(db.String(30), unique=True, index=True)
     confirmed = db.Column(db.Boolean, default=False)
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.datetime.utcnow)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -151,7 +156,10 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-
+    # 定义最后登录时间
+    def ping(self):
+        self.last_seen = datetime.datetime.utcnow()
+        db.session.add(self)
 
     def __repr__(self):
         return '<User %r>' % self.username

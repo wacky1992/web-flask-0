@@ -1,10 +1,34 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{#定义登录用户名#}
+{% block title %}flask-{{ user.username }}{% endblock %}
 
-{% block title %}刘恒健{% endblock %}
-
-{% block content %}
+{% block page_content %}
     <div class="page-header">
-        <h1>你好，{{ name }}！</h1>
+        <h1>{{ user.username }}</h1>
+{#name和location字段在同一个<p>元素中渲染。只有至少定义了这两个字段中的一个时，<p> 元素才会创建。#}
+{#    用户的location 字段被渲染成指向高德地图的查询链接。#}
+{#    如果登录用户是管理员，那么就显示用户的电子邮件地址，且渲染成mailto链接。#}
+        {% if user.name or user.location %}
+            <p>
+                {% if user.name %}{{ user.name }}{% endif %}
+                {% if user.location %}
+                    from <a href="http://https://ditu.amap.com/search?query={{ user.location }}">{{ user.location }}</a>
+                {% endif %}
+            </p>
+        {% endif %}
+        {% if current_user.is_administrator() %}
+            <p>
+                <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+            </p>
+        {% endif %}
+        {% if user.about_me %}
+            <p>
+                {{ user.about_me }}
+            </p>
+        {% endif %}
+        <p>
+            注册时间 {{ moment(user.member_since).format('L') }}. Last seen {{ moment(user.last_seen).fromNow() }}
+        </p>
     </div>
 {% endblock %}
