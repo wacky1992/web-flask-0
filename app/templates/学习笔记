@@ -1,3 +1,0 @@
-flask中current_app_get_current_object与current_app有什么区别？
-因为这里开了一个新线程，如果你不穿真实对象过去，那么你在线程里面使用 current_app 将获取不到对象，因为他没有 flask 上下文。
-这又是一个 Flask 的重要概念，太多得说。
